@@ -1,29 +1,30 @@
 export type CreatePostType = {
-    creator: string;
-    title: string;
-    message: string;
-    tags: string[];
-    selectedFile: string;
-};
+	name: string
+	title: string
+	message: string
+	tags: string[]
+	selectedFile: string
+}
 
 export type PostType = {
-    _id: number;
-    createdAt: number;
-    creator: string;
-    title: string;
-    message: string;
-    tags: string[];
-    selectedFile: string;
-    likeCount: number
-};
+	_id: number
+	createdAt: number
+	name: string
+	creator: string
+	title: string
+	message: string
+	tags: string[]
+	selectedFile: string
+	likes: string[]
+}
 
 export type UpdatePostParams = {
-    id: number;
-    post: CreatePostType
-};
+	id: number
+	post: CreatePostType
+}
 
 export interface PostsSliceState {
-    posts: PostType[];
-    loading: boolean;
-    error: string | null
+	posts: PostType[]
+	loading: boolean
+	error: string | null
 }

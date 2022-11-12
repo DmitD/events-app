@@ -1,44 +1,27 @@
-import React from 'react';
-import {Container, AppBar, Typography, Grow, Grid} from "@mui/material";
-import events from './images/events.png'
-import Form from "./components/form/Form";
-import Posts from "./components/posts/Posts";
-import {useStyles} from "./styles";
-import {useAppDispatch} from "./redux/store";
-import {getPosts} from "./redux/posts/asyncActions";
+import React from 'react'
+import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import { Container } from '@mui/material'
+import Navbar from './components/navbar/Navbar'
+import Home from './components/home/Home'
+import Auth from './components/auth/Auth'
+import { GoogleOAuthProvider } from '@react-oauth/google'
 
-
-function App() {
-    const { classes } = useStyles()
-    const dispatch = useAppDispatch()
-    const [currentId, setCurrentId] = React.useState<null | number>(null)
-
-    React.useEffect(() => {
-        dispatch(getPosts())
-    }, [])
-
-    return (
-        <Container maxWidth='lg'>
-            <AppBar className={classes.appBar} position='static' color='inherit'>
-                <Typography className={classes.heading} variant='h2' align='center'>
-                    Events
-                </Typography>
-                <img className={classes.image} src={events} alt='events' height='60'/>
-            </AppBar>
-            <Grow in>
-                <Container>
-                    <Grid container className={classes.mainContainer} justifyContent='space-between' alignItems='stretch'>
-                        <Grid item xs={12} sm={7}>
-                            <Posts setCurrentId={setCurrentId} />
-                        </Grid>
-                        <Grid className={classes.btMarg} item xs={12} sm={4}>
-                            <Form currentId={currentId} setCurrentId={setCurrentId} />
-                        </Grid>
-                    </Grid>
-                </Container>
-            </Grow>
-        </Container>
-    );
+const App: React.FC = () => {
+	return (
+		<GoogleOAuthProvider
+			clientId={`${process.env.REACT_APP_PUBLIC_GOOGLE_API_TOKEN}`}
+		>
+			<BrowserRouter>
+				<Container maxWidth='lg'>
+					<Navbar />
+					<Routes>
+						<Route path='/' element={<Home />} />
+						<Route path='/auth' element={<Auth />} />
+					</Routes>
+				</Container>
+			</BrowserRouter>
+		</GoogleOAuthProvider>
+	)
 }
 
-export default App;
+export default App
